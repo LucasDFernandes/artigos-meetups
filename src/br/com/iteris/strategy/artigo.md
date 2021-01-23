@@ -35,19 +35,21 @@ Regras:
 
 Nosso sistema tem que receber um lista de contas, de todos os tipos, e calcular o valor total de rendimento a ser pago pelo banco.
 
-Segue os modelos de exemplo do nosso sistema:
+Segue o modelo de exemplo do nosso sistema:
  
 ```java
 package br.com.iteris.strategy;
 
-public abstract class Conta {
+public class Conta {
 
-    protected String nome;
-    protected double saldo;
+    private String nome;
+    private double saldo;
+    private String tipoConta;
 
-    public Conta(String nome, double saldo) {
+    public Conta(String nome, double saldo, String tipoConta) {
         this.nome = nome;
         this.saldo = saldo;
+        this.tipoConta = tipoConta;
     }
 
     public String getNome() {
@@ -57,41 +59,12 @@ public abstract class Conta {
     public double getSaldo() {
         return saldo;
     }
-}
-```
-```java
-package br.com.iteris.strategy;
-
-public class ContaCorrente extends Conta {
-
-    public ContaCorrente(String nome, double saldo) {
-        super(nome, saldo);
-    }
-
-}
-```
-```java
-package br.com.iteris.strategy;
-
-public class ContaPoupanca extends Conta {
-
-    public ContaPoupanca(String nome, double saldo) {
-        super(nome, saldo);
-    }
-
-}
-```
-```java
-package br.com.iteris.strategy;
-
-public class ContaUniversitaria extends Conta {
-
-    public ContaUniversitaria(String nome, double saldo) {
-        super(nome, saldo);
-    }
     
-}
+    public String getTipoConta() {
+        return tipoConta;    
+    }
 
+}
 ```
 
 Exemplo de solução, sem utilizar o padrão Strategy:
@@ -101,24 +74,24 @@ package br.com.iteris.strategy;
 
 import java.util.List;
 
-public class CalculadoraAPagarFinanceiro {
+public class CalculadoraFinanceiro {
 
-    private List<Conta> todasAsContas;
+    private List<Conta> contas;
 
-    public CalculadoraAPagarFinanceiro(List<Conta> todasAsContas) {
-        this.todasAsContas = todasAsContas;
+    public CalculadoraAPagarFinanceiro(List<Conta> contas) {
+        this.contas = contas;
     }
 
     public double calculaRendimentoTotalAPagar() {
         double valorTotal = 0;
-        for (Conta conta : todasAsContas) {
-            if (conta instanceof ContaCorrente) {
+        for (Conta conta : contas) {
+            if (conta.getTipo().equals("Conta Corrente")) {
                 valorTotal += conta.getSaldo() * 0.01;
             }
-            if (conta instanceof ContaUniversitaria) {
+            if (conta.getTipo().equals("Conta Universitaria")) {
                 valorTotal += conta.getSaldo() * 0.02;
             }
-            if (conta instanceof ContaPoupanca) {
+            if (conta.getTipo().equals("Conta Poupança")) {
                 valorTotal += conta.getSaldo() * 0.05;
             }
         }
