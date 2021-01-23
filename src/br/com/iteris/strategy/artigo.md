@@ -85,13 +85,13 @@ public class CalculadoraFinanceiro {
     public double calculaRendimentoTotalAPagar() {
         double valorTotal = 0;
         for (Conta conta : contas) {
-            if (conta.getTipo().equals("Conta Corrente")) {
+            if (conta.getTipoConta().equals("Conta Corrente")) {
                 valorTotal += conta.getSaldo() * 0.01;
             }
-            if (conta.getTipo().equals("Conta Universitaria")) {
+            if (conta.getTipoConta.equals("Conta Universitaria")) {
                 valorTotal += conta.getSaldo() * 0.02;
             }
-            if (conta.getTipo().equals("Conta Poupança")) {
+            if (conta.getTipoConta.equals("Conta Poupança")) {
                 valorTotal += conta.getSaldo() * 0.05;
             }
         }
