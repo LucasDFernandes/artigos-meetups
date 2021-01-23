@@ -15,7 +15,7 @@ código e seguindo as melhores práticas de desenvolvimento. Para essas soluções d
 Um dos mais famosos Design Patterns é o padrão Strategy, também conhecido como Policy. Dentro das divisões de classificação dos tipos de Design Patterns, são elas: Criacionais, Estruturais e Comportamentais, o padrão Strategy pertence ao último grupo.
 
 O conceito do padrão Strategy consiste em seu software ter um família de algoritimos que tem o mesmo objetivo mas tem uma implementação diferente entre eles e permite que o algoritmo varie independemente dos clientes que o utilizam. Em outras palavras, 
-Strategy nos permite configurar uma classe com um de vários comportamentos, utilizando o conceito de OO chamado de composição.
+Strategy nos permite configurar uma classe com um de vários comportamentos, utilizando o conceito de OO chamado de polimorfismo.
 
 A estrutura deste padrão pode ser visualizada pelo seguinte diagrama de classes:
 <br>
@@ -24,7 +24,7 @@ A estrutura deste padrão pode ser visualizada pelo seguinte diagrama de classes:
 **Apresentação do Problema**
 
 Para utilizar o padrão Strategy, vamos supor um problema do mundo real. Imagine que, em uma aplicação de administração de banco, 
-existem 3 tipos de conta: Conta Corrente, Conta Poupança e Conta Salário. Para cada tipo de conta existem uma regra para cálculo 
+existem 3 tipos de conta: Conta Corrente, Conta Poupança e Conta Universitaria. Para cada tipo de conta existem uma regra para cálculo 
 de rendimento em cima do saldo da conta.
 
 Regras:
@@ -144,7 +144,7 @@ conhecer a lógica de cálculo.
 
 Para isso, vamos criar a interface da estratégia: CalculoRendimento e depois implementar em cada tipo de conta a sua própria regra
 
-_show me the code_:
+*_show me the code_*:
 
 ```java
 package br.com.iteris.strategy;
@@ -226,18 +226,18 @@ package br.com.iteris.strategy;
 
 import java.util.List;
 
-public class CalculadoraAPagarFinanceiro {
+public class CalculadoraFinanceiro {
 
-    private List<Conta> todasAsContas;
+    private List<CalculoRendimento> calculoRendimentoList;
 
-    public CalculadoraAPagarFinanceiro(List<Conta> todasAsContas) {
-        this.todasAsContas = todasAsContas;
+    public CalculadoraAPagarFinanceiro(List<CalculoRendimento> calculoRendimentoList) {
+        this.calculoRendimentoList = calculoRendimentoList;
     }
 
     public double calculaRendimentoTotalAPagar() {
         double valorTotal = 0;
-        for (Conta conta : todasAsContas) {
-            valorTotal += conta.calculaRendimento();
+        for (CalculoRendimento calculoRendimento : calculoRendimentoList) {
+            valorTotal += calculoRendimento.calculaRendimento();
         }
 
         return valorTotal;
@@ -250,18 +250,19 @@ package br.com.iteris.strategy;
 
 import java.util.List;
 
-public class CalculadoraAPagarFinanceiro {
+public class CalculadoraFinanceiro {
 
-    private List<Conta> todasAsContas;
+    private List<CalculoRendimento> calculoRendimentoList;
 
-    public CalculadoraAPagarFinanceiro(List<Conta> todasAsContas) {
-        this.todasAsContas = todasAsContas;
+    public CalculadoraAPagarFinanceiro(List<CalculoRendimento> calculoRendimentoList) {
+        this.calculoRendimentoList = calculoRendimentoList;
     }
 
     public double calculaRendimentoTotalAPagar() {
-        return todasAsContas.stream().mapToDouble(CalculoRendimento::calculaRendimento).sum();
+        return calculoRendimentoList.stream().mapToDouble(CalculoRendimento::calculaRendimento).sum();
     }
 }
+
 ```
 
 Como teste podemos rodar em um _Main_ de exemplo:
@@ -274,26 +275,28 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        Conta contaCorrente = new ContaCorrente("Jon Snow", 1000.00);
-        Conta contaUniversitaria = new ContaUniversitaria("Rhaegar Targeryan", 1000.00);
-        Conta contaPoupanca = new ContaPoupanca("Robert Baratheon", 1000.00);
+        CalculoRendimento contaCorrente = new ContaCorrente("Jon Snow", 1000.00);
+        CalculoRendimento contaUniversitaria = new ContaUniversitaria("Rhaegar Targeryan", 1000.00);
+        CalculoRendimento contaPoupanca = new ContaPoupanca("Robert Baratheon", 1000.00);
 
-        List<Conta> contaList = Arrays.asList(contaCorrente, contaUniversitaria, contaPoupanca);
+        List<CalculoRendimento> calculoRendimentoList = Arrays.asList(contaCorrente, contaUniversitaria, contaPoupanca);
 
-        CalculadoraAPagarFinanceiro calculadoraAPagarFinanceiro = new CalculadoraAPagarFinanceiro(contaList);
-        System.out.println("Total de rendimentos a pagar: " + calculadoraAPagarFinanceiro.calculaRendimentoTotalAPagar());
+        CalculadoraFinanceiro calculadoraFinanceiro = new CalculadoraFinanceiro(calculoRendimentoList);
+        System.out.println("Total de rendimentos a pagar: " + calculadoraFinanceiro.calculaRendimentoTotalAPagar());
     }
 
 }
+
 ```
 
 **Ganhos com Strategy**
 
 Percebam quão simples ficou para nossa classe _client_ utilizar as regras de cálculo de rendimento para os tipos de conta diferente.
-Quem quiser saber o rendimento de uma conta basta invoca-la e sua própria implementação fará o trabalho. Se uma nova conta surgir, basta implementarmos o contrato
-e todo o sistema se encarregará do resto. Assim respeitamos o princípio _Open-Closed_.
+Quem quiser saber o rendimento de uma conta basta invoca-la e sua própria implementação fará o trabalho. Se uma nova conta surgir ou 
+alguma outra classe que também gera um rendimento, basta implementarmos o contrato e todo o sistema se encarregará do resto. 
+Assim respeitamos o princípio _Open-Closed_.
 
 Outro ganho importante nessa abordagem é que agora não dependemos mais de classes concretas e sim de uma interface, garantido assim
 o princípio da inversão de dependência.
 
-O Strategy, é um dos Padrões de Projetos mais conhecidos e utilizados no mundo de desenvolvimento de software, use e abuse dessa poderosa ferramenta.
+O Strategy, é um dos Design Patterns mais conhecidos e utilizados no mundo de desenvolvimento de software, use e abuse dessa poderoso padrão de projeto.
