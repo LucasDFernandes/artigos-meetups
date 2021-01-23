@@ -269,7 +269,7 @@ Quem quiser saber o rendimento de uma conta basta invoca-la e sua própria implem
 alguma outra classe que também gera um rendimento, basta implementarmos o contrato e todo o sistema se encarregará do resto. 
 Assim respeitamos o princípio _Open-Closed_.
 
-Outro ganho importante nessa abordagem é que agora não dependemos mais de classes concretas e sim de uma interface, garantido assim
-o princípio da inversão de dependência.
+Outro ganho importante nessa abordagem é que agora não dependemos mais de classes concretas e sim de uma interface que é uma estrutura mais estável,
+garantido assim o princípio da inversão de dependência.
 
 O Strategy, é um dos Design Patterns mais conhecidos e utilizados no mundo de desenvolvimento de software, use e abuse dessa poderoso padrão de projeto.
