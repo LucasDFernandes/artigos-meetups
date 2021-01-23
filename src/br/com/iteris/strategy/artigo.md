@@ -4,7 +4,7 @@ Como utilizar o o padrão de projeto Strategy no desenvolvimento de aplicações ro
 **O que é Design Pattern ?** 
 
 Quando começamos no desenvolvimento do mundo orientado a objeto, é comum encontrarmos alguns desafios envolvendo a modelagem das classes e seus comportamentos.
-Conforme vamos adquirando experiência em vários projetos, percebemos que determinados problemas são muito recorrentes mesmo em software distintos. 
+Conforme vamos adquirindo experiência em vários projetos, percebemos que determinados problemas são muito recorrentes mesmo em software distintos. 
 
 Para esses desafios muito comuns e que ocorrem de maneira frequente, independente do domínio do projeto, foram desenhadas soluções elegantes que não só resolvem o problema, mas também facilita a manutenção no 
 código e seguindo as melhores práticas de desenvolvimento. Para essas soluções damos o nome de Design Patterns ou Padrões de Projeto.
@@ -274,9 +274,9 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        ContaCorrente contaCorrente = new ContaCorrente("Jon Snow", 1000.00);
-        ContaUniversitaria contaUniversitaria = new ContaUniversitaria("Rhaegar Targeryan", 1000.00);
-        ContaPoupanca contaPoupanca = new ContaPoupanca("Robert Baratheon", 1000.00);
+        Conta contaCorrente = new ContaCorrente("Jon Snow", 1000.00);
+        Conta contaUniversitaria = new ContaUniversitaria("Rhaegar Targeryan", 1000.00);
+        Conta contaPoupanca = new ContaPoupanca("Robert Baratheon", 1000.00);
 
         List<Conta> contaList = Arrays.asList(contaCorrente, contaUniversitaria, contaPoupanca);
 
