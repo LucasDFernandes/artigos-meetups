@@ -88,10 +88,10 @@ public class CalculadoraFinanceiro {
             if (conta.getTipoConta().equals("Conta Corrente")) {
                 valorTotal += conta.getSaldo() * 0.01;
             }
-            if (conta.getTipoConta.equals("Conta Universitaria")) {
+            if (conta.getTipoConta().equals("Conta Universitaria")) {
                 valorTotal += conta.getSaldo() * 0.02;
             }
-            if (conta.getTipoConta.equals("Conta Poupança")) {
+            if (conta.getTipoConta().equals("Conta Poupança")) {
                 valorTotal += conta.getSaldo() * 0.05;
             }
         }
