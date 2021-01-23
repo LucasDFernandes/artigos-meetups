@@ -1,6 +1,6 @@
 package br.com.iteris.strategy;
 
-public abstract class Conta {
+public abstract class Conta implements CalculoRendimento {
 
     protected String nome;
     protected double saldo;

@@ -94,5 +94,206 @@ public class ContaUniversitaria extends Conta {
 
 ```
 
- 
+Exemplo de solução, sem utilizar o padrão Strategy:
 
+```java
+package br.com.iteris.strategy;
+
+import java.util.List;
+
+public class CalculadoraAPagarFinanceiro {
+
+    private List<Conta> todasAsContas;
+
+    public CalculadoraAPagarFinanceiro(List<Conta> todasAsContas) {
+        this.todasAsContas = todasAsContas;
+    }
+
+    public double calculaRendimentoTotalAPagar() {
+        double valorTotal = 0;
+        for (Conta conta : todasAsContas) {
+            if (conta instanceof ContaCorrente) {
+                valorTotal += conta.getSaldo() * 0.01;
+            }
+            if (conta instanceof ContaUniversitaria) {
+                valorTotal += conta.getSaldo() * 0.02;
+            }
+            if (conta instanceof ContaPoupanca) {
+                valorTotal += conta.getSaldo() * 0.05;
+            }
+        }
+
+        return valorTotal;
+    }
+}
+```
+ 
+Vemos que a solução apresentada funciona, mas essa é uma solução de fácil manutenção? Orientada a mudança? 
+
+E se nosso sistema crescer e novos tipos de conta forem criadas?
+
+E se a lógica de cálculo do rendimento precisar ser utilizada em outro lugar? 
+
+Obviamente, parece não ser a melhor forma de resolver nosso problema.
+
+**Solução Utilizando Strategy**
+
+Seguindo o conceito do Strategy, vamos delegar a cada tipo de conta sua responsabilidade de saber 
+como ela implementa o seu cálculo de rendimento. Assim quem for utilizar a lógica de cálculo, o client da chamada, não precisará
+conhecer a lógica de cálculo. 
+
+Para isso, vamos criar a interface da estratégia: CalculoRendimento e depois implementar em cada tipo de conta a sua própria regra
+
+_show me the code_:
+
+```java
+package br.com.iteris.strategy;
+
+public interface CalculoRendimento {
+
+    double calculaRendimento();
+}
+```
+```java
+package br.com.iteris.strategy;
+
+public abstract class Conta implements CalculoRendimento {
+
+    protected String nome;
+    protected double saldo;
+
+    public Conta(String nome, double saldo) {
+        this.nome = nome;
+        this.saldo = saldo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+}
+```
+```java
+package br.com.iteris.strategy;
+
+public class ContaCorrente extends Conta {
+
+    public ContaCorrente(String nome, double saldo) {
+        super(nome, saldo);
+    }
+
+    @Override
+    public double calculaRendimento() {
+        return saldo * 0.01;
+    }
+}
+```
+```java
+package br.com.iteris.strategy;
+
+public class ContaPoupanca extends Conta {
+
+    public ContaPoupanca(String nome, double saldo) {
+        super(nome, saldo);
+    }
+
+    @Override
+    public double calculaRendimento() {
+        return saldo * 0.05;
+    }
+}
+```
+```java
+package br.com.iteris.strategy;
+
+public class ContaUniversitaria extends Conta {
+
+    public ContaUniversitaria(String nome, double saldo) {
+        super(nome, saldo);
+    }
+
+    @Override
+    public double calculaRendimento() {
+        return saldo * 0.02;
+    }
+}
+```
+```java
+package br.com.iteris.strategy;
+
+import java.util.List;
+
+public class CalculadoraAPagarFinanceiro {
+
+    private List<Conta> todasAsContas;
+
+    public CalculadoraAPagarFinanceiro(List<Conta> todasAsContas) {
+        this.todasAsContas = todasAsContas;
+    }
+
+    public double calculaRendimentoTotalAPagar() {
+        double valorTotal = 0;
+        for (Conta conta : todasAsContas) {
+            valorTotal += conta.calculaRendimento();
+        }
+
+        return valorTotal;
+    }
+}
+```
+Para aqueles já familiarizados com Java 8
+```java
+package br.com.iteris.strategy;
+
+import java.util.List;
+
+public class CalculadoraAPagarFinanceiro {
+
+    private List<Conta> todasAsContas;
+
+    public CalculadoraAPagarFinanceiro(List<Conta> todasAsContas) {
+        this.todasAsContas = todasAsContas;
+    }
+
+    public double calculaRendimentoTotalAPagar() {
+        return todasAsContas.stream().mapToDouble(CalculoRendimento::calculaRendimento).sum();
+    }
+}
+```
+
+Como teste podemos rodar em um _Main_ de exemplo:
+```java
+package br.com.iteris.strategy;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) {
+        ContaCorrente contaCorrente = new ContaCorrente("Jon Snow", 1000.00);
+        ContaUniversitaria contaUniversitaria = new ContaUniversitaria("Rhaegar Targeryan", 1000.00);
+        ContaPoupanca contaPoupanca = new ContaPoupanca("Robert Baratheon", 1000.00);
+
+        List<Conta> contaList = Arrays.asList(contaCorrente, contaUniversitaria, contaPoupanca);
+
+        CalculadoraAPagarFinanceiro calculadoraAPagarFinanceiro = new CalculadoraAPagarFinanceiro(contaList);
+        System.out.println("Total de rendimentos a pagar: " + calculadoraAPagarFinanceiro.calculaRendimentoTotalAPagar());
+    }
+
+}
+```
+
+**Ganhos com Strategy**
+
+Percebam quão simples ficou para nossa classe _client_ utilizar as regras de cálculo de rendimento para os tipos de conta diferente.
+Quem quiser saber o rendimento de uma conta basta invoca-la e sua própria implementação fará o trabalho. Se uma nova conta surgir, basta implementarmos o contrato
+e todo o sistema se encarregará do resto. Assim respeitamos o princípio _Open-Closed_.
+
+Outro ganho importante nessa abordagem é que agora não dependemos mais de classes concretas e sim de uma interface, garantido assim
+o princípio da inversão de dependência.
+
+O Strategy, é um dos Padrões de Projetos mais conhecidos e utilizados no mundo de desenvolvimento de software, use e abuse dessa poderosa ferramenta.

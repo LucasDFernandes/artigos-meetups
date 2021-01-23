@@ -6,4 +6,8 @@ public class ContaCorrente extends Conta {
         super(nome, saldo);
     }
 
+    @Override
+    public double calculaRendimento() {
+        return saldo * 0.01;
+    }
 }

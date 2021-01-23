@@ -11,19 +11,6 @@ public class CalculadoraAPagarFinanceiro {
     }
 
     public double calculaRendimentoTotalAPagar() {
-        double valorTotal = 0;
-        for (Conta conta : todasAsContas) {
-            if (conta instanceof ContaCorrente) {
-                valorTotal += conta.getSaldo() * 0.01;
-            }
-            if (conta instanceof ContaUniversitaria) {
-                valorTotal += conta.getSaldo() * 0.02;
-            }
-            if (conta instanceof ContaPoupanca) {
-                valorTotal += conta.getSaldo() * 0.05;
-            }
-        }
-
-        return valorTotal;
+        return todasAsContas.stream().mapToDouble(CalculoRendimento::calculaRendimento).sum();
     }
 }
