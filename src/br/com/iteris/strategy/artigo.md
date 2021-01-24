@@ -267,7 +267,7 @@ public class Main {
 Percebam quão simples ficou para nossa classe _client_ utilizar as regras de cálculo de rendimento para os tipos de conta diferente.
 Quem quiser saber o rendimento de uma conta basta invoca-la e sua própria implementação fará o trabalho. Se uma nova conta surgir ou 
 alguma outra classe que também gera um rendimento, basta implementarmos o contrato e todo o sistema se encarregará do resto. 
-Assim respeitamos o princípio _Open-Closed_.
+Assim respeitamos o princípio _Open-Closed (OCP)_.
 
 Outro ganho importante nessa abordagem é que agora não dependemos mais de classes concretas e sim de uma interface que é uma estrutura mais estável,
 garantido assim o princípio da inversão de dependência.
