@@ -11,7 +11,7 @@ código e seguindo as melhores práticas de desenvolvimento. Para essas soluções d
 
 **Conceito do Template Method**
 
-Um dos mais conhecidos e utilizados é o padrão Template Method. Dentro das divisões de classificação dos tipos de Design Patterns, são elas: Criacionais, Estruturais e Comportamentais, o padrão Strategy pertence ao último grupo.
+Um dos mais conhecidos e utilizados é o padrão Template Method. Dentro das divisões de classificação dos tipos de Design Patterns, são elas: Criacionais, Estruturais e Comportamentais, o padrão Template Method pertence ao último grupo.
                                                                 
 O conceito do pattern Template Method é muito simples, a idea é criar um algoritmo aonde determinadas partes desse algoritmo sejam implementadas pelas subclasses concretas que herdam o "esqueleto" da superclasse abstrata. 
 Dessa forma na superclasse temos um método(_method_) que possui lacunas(_template_) aonde as subclasses herdarão o método mas ficarão encarregadas de preencher as lacunas com seus próprios comportamento.
