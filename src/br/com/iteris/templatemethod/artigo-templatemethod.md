@@ -113,7 +113,7 @@ public abstract class Conta {
 
     public void realizaDoc(double valorDoc, Conta contaDestinatario) {
         if (saldo >= valorDoc) {
-            saldo =- valorDoc + taxaDescontoDoc(saldo);
+            saldo -= valorDoc + taxaDescontoDoc(saldo);
             contaDestinatario.recebeDoc(valorDoc);
         } else {
             System.out.println("Não é possivel realizar DOC");
