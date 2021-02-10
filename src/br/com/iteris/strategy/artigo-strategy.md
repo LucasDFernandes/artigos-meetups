@@ -72,7 +72,7 @@ Exemplo de solução, sem utilizar o padrão Strategy:
 ```java
 package br.com.iteris.strategy;
 
-import java.util.List;
+import java.util.List;import br.com.iteris.domain.Conta;
 
 public class CalculadoraFinanceiro {
 
@@ -130,7 +130,7 @@ public interface CalculoRendimento {
 ```java
 package br.com.iteris.strategy;
 
-public abstract class Conta implements CalculoRendimento {
+import br.com.iteris.domain.CalculoRendimento;public abstract class Conta implements CalculoRendimento {
 
     protected String nome;
     protected double saldo;
@@ -152,7 +152,7 @@ public abstract class Conta implements CalculoRendimento {
 ```java
 package br.com.iteris.strategy;
 
-public class ContaCorrente extends Conta {
+import br.com.iteris.domain.Conta;public class ContaCorrente extends Conta {
 
     public ContaCorrente(String nome, double saldo) {
         super(nome, saldo);
@@ -167,7 +167,7 @@ public class ContaCorrente extends Conta {
 ```java
 package br.com.iteris.strategy;
 
-public class ContaPoupanca extends Conta {
+import br.com.iteris.domain.Conta;public class ContaPoupanca extends Conta {
 
     public ContaPoupanca(String nome, double saldo) {
         super(nome, saldo);
@@ -182,7 +182,7 @@ public class ContaPoupanca extends Conta {
 ```java
 package br.com.iteris.strategy;
 
-public class ContaUniversitaria extends Conta {
+import br.com.iteris.domain.Conta;public class ContaUniversitaria extends Conta {
 
     public ContaUniversitaria(String nome, double saldo) {
         super(nome, saldo);
@@ -197,7 +197,7 @@ public class ContaUniversitaria extends Conta {
 ```java
 package br.com.iteris.strategy;
 
-import java.util.List;
+import java.util.List;import br.com.iteris.domain.CalculoRendimento;
 
 public class CalculadoraFinanceiro {
 
@@ -221,7 +221,7 @@ Para aqueles já familiarizados com Java 8
 ```java
 package br.com.iteris.strategy;
 
-import java.util.List;
+import java.util.List;import br.com.iteris.domain.CalculoRendimento;
 
 public class CalculadoraFinanceiro {
 
@@ -243,7 +243,7 @@ Como teste podemos rodar em um _Main_ de exemplo:
 package br.com.iteris.strategy;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.List;import br.com.iteris.domain.CalculadoraFinanceiro;import br.com.iteris.domain.CalculoRendimento;import br.com.iteris.domain.ContaCorrente;import br.com.iteris.domain.ContaPoupanca;import br.com.iteris.domain.ContaUniversitaria;
 
 public class Main {
 
@@ -272,4 +272,4 @@ Assim respeitamos o princípio _Open-Closed (OCP)_.
 Outro ganho importante nessa abordagem é que agora não dependemos mais de classes concretas e sim de uma interface que é uma estrutura mais estável,
 garantido assim o princípio da inversão de dependência.
 
-O Strategy, é um dos Design Patterns mais conhecidos e utilizados no mundo de desenvolvimento de software, use e abuse dessa poderoso padrão de projeto.
+O Strategy, é um dos Design Patterns mais conhecidos e utilizados no mundo de desenvolvimento de software, use e abuse desse poderoso padrão de projeto.
