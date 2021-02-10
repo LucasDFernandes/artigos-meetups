@@ -1,2 +1,2 @@
 # artigos-meetups
-Projeo de Artigos e Meeutps
+Projeto de Artigos e Meeutps

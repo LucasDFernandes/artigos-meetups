@@ -23,7 +23,7 @@ Esse padrão é muito parecido com o Strategy, com a sutil diferença que no Strate
 Para utilizar o padrão Template Method, vamos supor um problema do mundo real. Imagine que, em uma aplicação de administração de banco, 
 existem 3 tipos de conta: Conta Corrente, Conta Poupança e Conta Universitaria.  
 
-Para cada tipo de conta, uma taxa diferente é descontada para realizar as transferência bancárias: TED
+Para cada tipo de conta, uma taxa diferente é descontada para realizar as transferência bancárias: DOC
                                                                                
 Regras:
 
@@ -51,11 +51,11 @@ public class Conta {
     public void realizaDoc(double valorDoc, Conta contaDestinatario) {
         if (saldo >= valorDoc) {
             if (tipoConta.equals("Conta Corrente")) {
-                saldo -= valorDoc - saldo * 0.01;
+                saldo -= valorDoc + saldo * 0.01;
             }
 
             if (tipoConta.equals("Conta Universitaria")) {
-                saldo -= valorDoc - saldo * 0.005;
+                saldo -= valorDoc + saldo * 0.005;
             }
 
             if (tipoConta.equals("Conta Poupanca")) {
@@ -78,11 +78,10 @@ public class Conta {
 ```
 Vemos que a solução apresentada funciona, mas essa é uma solução de fácil manutenção? Orientada a mudança?
 
-E se nosso sistema crescer e novos tipos de conta forem criadas?
-
-E se a lógica de cálculo do rendimento precisar ser utilizada em outro lugar?
-
+E se nosso sistema crescer e novos tipos de conta forem criadas? Iremos encadear mais Ifs no nosso código ?
 O uso demasiado de if e else normalmente também é um sinal que não estamos utilizando o paradigma OO corretamente.
+
+E se a lógica de cálculo de desconto precisar ser utilizada em outro lugar?
 
 Obviamente, parece não ser a melhor forma de resolver nosso problema.
 
@@ -110,7 +109,7 @@ public abstract class Conta {
 
     public void realizaDoc(double valorDoc, Conta contaDestinatario) {
         if (saldo >= valorDoc) {
-            saldo =- valorDoc - taxaDescontoDoc(saldo);
+            saldo =- valorDoc + taxaDescontoDoc(saldo);
             contaDestinatario.recebeDoc(valorDoc);
         } else {
             System.out.println("Não é possivel realizar DOC");
