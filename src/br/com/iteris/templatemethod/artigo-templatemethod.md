@@ -16,6 +16,10 @@ Um dos mais conhecidos e utilizados é o padrão Template Method. Dentro das divis
 O conceito do pattern Template Method é muito simples, a idea é criar um algoritmo aonde determinadas partes desse algoritmo sejam implementadas pelas subclasses concretas que herdam o "esqueleto" da superclasse abstrata. 
 Dessa forma na superclasse temos um método(_method_) que possui lacunas(_template_) aonde as subclasses herdarão o método mas ficarão encarregadas de preencher as lacunas com seus próprios comportamento.
 
+A estrutura desse padrão pode ser visualizado pelo seguinte diagrama de classe:
+<br>
+![](http://social.technet.microsoft.com/wiki/resized-image.ashx/__size/550x0/__key/communityserver-wikis-components-files/00-00-00-00-05/0160.TemplateMethod.jpg)
+
 Esse padrão é muito parecido com o Strategy, com a sutil diferença que no Strategy o comportamento é implementado por completo e no Template Method apenas parte dele é sobrescrito.
 
 **Apresentação do Problema**
@@ -197,4 +201,11 @@ Process finished with exit code 0
 
 Ganhos com Template Method
 
-// TODO
+Percebam que agora as responsabilidade estão mais bem definidas, a parte do algoritmo que é comum a todos fica na superclasse abstrata e as lacunas que 
+dependendo do tipo de conta são implementadas pelas próprias contas. Nossas classes estão abertas para 
+extensão e fechadas para mudanças, respeitando assim um dos pilares do _SOLID_, o princípio _Open-Closed (OCP)_.
+
+Outro ganho importante nessa abordagem é que agora cada classe tem apenas uma única responsabilidade que é conhecer sua própria regra
+de cálculo de taxa de desconto. Dessa forma outro pilar do _SOLID_ é utilizado, o _Single Responsability Principle_
+
+O Template Method, utilizado de maneira correta pode aumentar e muito a coerência e coesão do seu código.
