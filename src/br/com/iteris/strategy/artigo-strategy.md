@@ -120,17 +120,13 @@ Para isso, vamos criar a interface da estratégia: CalculoRendimento e depois imp
 *_show me the code_*:
 
 ```java
-package br.com.iteris.strategy;
-
 public interface CalculoRendimento {
 
     double calculaRendimento();
 }
 ```
 ```java
-package br.com.iteris.strategy;
-
-import br.com.iteris.domain.CalculoRendimento;public abstract class Conta implements CalculoRendimento {
+public abstract class Conta implements CalculoRendimento {
 
     protected String nome;
     protected double saldo;
@@ -150,9 +146,7 @@ import br.com.iteris.domain.CalculoRendimento;public abstract class Conta implem
 }
 ```
 ```java
-package br.com.iteris.strategy;
-
-import br.com.iteris.domain.Conta;public class ContaCorrente extends Conta {
+public class ContaCorrente extends Conta {
 
     public ContaCorrente(String nome, double saldo) {
         super(nome, saldo);
@@ -165,9 +159,7 @@ import br.com.iteris.domain.Conta;public class ContaCorrente extends Conta {
 }
 ```
 ```java
-package br.com.iteris.strategy;
-
-import br.com.iteris.domain.Conta;public class ContaPoupanca extends Conta {
+public class ContaPoupanca extends Conta {
 
     public ContaPoupanca(String nome, double saldo) {
         super(nome, saldo);
@@ -180,9 +172,7 @@ import br.com.iteris.domain.Conta;public class ContaPoupanca extends Conta {
 }
 ```
 ```java
-package br.com.iteris.strategy;
-
-import br.com.iteris.domain.Conta;public class ContaUniversitaria extends Conta {
+public class ContaUniversitaria extends Conta {
 
     public ContaUniversitaria(String nome, double saldo) {
         super(nome, saldo);
@@ -195,10 +185,6 @@ import br.com.iteris.domain.Conta;public class ContaUniversitaria extends Conta 
 }
 ```
 ```java
-package br.com.iteris.strategy;
-
-import java.util.List;import br.com.iteris.domain.CalculoRendimento;
-
 public class CalculadoraFinanceiro {
 
     private List<CalculoRendimento> calculoRendimentoList;
@@ -219,10 +205,6 @@ public class CalculadoraFinanceiro {
 ```
 Para aqueles já familiarizados com Java 8
 ```java
-package br.com.iteris.strategy;
-
-import java.util.List;import br.com.iteris.domain.CalculoRendimento;
-
 public class CalculadoraFinanceiro {
 
     private List<CalculoRendimento> calculoRendimentoList;
@@ -240,11 +222,6 @@ public class CalculadoraFinanceiro {
 
 Como teste podemos rodar em um _Main_ de exemplo:
 ```java
-package br.com.iteris.strategy;
-
-import java.util.Arrays;
-import java.util.List;import br.com.iteris.domain.CalculadoraFinanceiro;import br.com.iteris.domain.CalculoRendimento;import br.com.iteris.domain.ContaCorrente;import br.com.iteris.domain.ContaPoupanca;import br.com.iteris.domain.ContaUniversitaria;
-
 public class Main {
 
     public static void main(String[] args) {
