@@ -175,26 +175,26 @@ Como Teste podemos rodar em um Main de exemplo:
 public class Main {
 
     public static void main(String[] args) {
-        Conta contaCorrenteAT = new ContaCorrente("Aerys Targeryan", 500);
+        Conta contaCorrenteAT = new ContaCorrente("Aerys Targeryan", 1000);
         Conta contaPoupancaTL = new ContaPoupanca("Tywin Lannister", 1000);
-        Conta contaUniversitariaSC = new ContaUniversitaria("Sandor Clegane", 50);
+        Conta contaUniversitariaSC = new ContaUniversitaria("Sandor Clegane", 1000);
 
-        contaCorrenteAT.realizaDoc(50, contaPoupancaTL);
+        contaCorrenteAT.realizaDoc(100, contaPoupancaTL);
         contaPoupancaTL.realizaDoc(100, contaUniversitariaSC);
-        contaUniversitariaSC.realizaDoc(10, contaCorrenteAT);
+        contaUniversitariaSC.realizaDoc(100, contaCorrenteAT);
 
-        System.out.println("Saldo de Conta Corrente deve ser igual a: 455, valor real: " + contaCorrenteAT.getSaldo());
-        System.out.println("Saldo de Conta Poupança deve ser igual a: 950, valor real: " + contaPoupancaTL.getSaldo());
-        System.out.println("Saldo de Conta Universitaria deve ser igual a: 139.25, valor real: " + contaUniversitariaSC.getSaldo());
+        System.out.println("Saldo de Conta Corrente deve ser igual a: 990, valor real: " + contaCorrenteAT.getSaldo());
+        System.out.println("Saldo de Conta Poupança deve ser igual a: 1000, valor real: " + contaPoupancaTL.getSaldo());
+        System.out.println("Saldo de Conta Universitaria deve ser igual a: 994.5, valor real: " + contaUniversitariaSC.getSaldo());
     }
 
 }
 ```
 ```shell script
-/home/lucasfernandes/.sdkman/candidates/java/15.0.1-open/bin/java -javaagent:/snap/intellij-idea-community/244/lib/idea_rt.jar=38985:/snap/intellij-idea-community/244/bin -Dfile.encoding=ISO-8859-1 -classpath /home/lucasfernandes/git/pessoal-poc/artigos-meetups/out/production/artigos-meetups br.com.iteris.templatemethod.Main
-Saldo de Conta Corrente deve ser igual a: 455, valor real: 455.0
-Saldo de Conta Poupança deve ser igual a: 950, valor real: 950.0
-Saldo de Conta Universitaria deve ser igual a: 139.25, valor real: 139.25
+/home/lucasfernandes/.sdkman/candidates/java/15.0.1-open/bin/java -javaagent:/snap/intellij-idea-community/244/lib/idea_rt.jar=33389:/snap/intellij-idea-community/244/bin -Dfile.encoding=ISO-8859-1 -classpath /home/lucasfernandes/git/pessoal-poc/artigos-meetups/out/production/artigos-meetups br.com.iteris.templatemethod.Main
+Saldo de Conta Corrente deve ser igual a: 990, valor real: 990.0
+Saldo de Conta Poupança deve ser igual a: 1000, valor real: 1000.0
+Saldo de Conta Universitaria deve ser igual a: 994.5, valor real: 994.5
 
 Process finished with exit code 0
 ```
