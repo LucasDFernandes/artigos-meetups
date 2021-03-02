@@ -1,9 +1,6 @@
 package br.com.iteris.observer;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 
 public class Conta {
 
@@ -17,13 +14,20 @@ public class Conta {
         this.gerenciador = new AcaoAposAlteracaoSaldoGerenciador(Collections.singleton(new ExtratoConta()));
     }
 
+    private void verificaEnvioOFertaCredito() {
+        if (saldo >= 5000) {
+            gerenciador.adicionar(new OfertaCartaoCredito());
+        } else {
+            gerenciador.remover(new OfertaCartaoCredito());
+        }
+    }
+
     public double saca(double valor) {
         if (saldo >= valor) {
             saldo -= valor;
 
-            if (saldo >= 5000) {
-                gerenciador.adicionar(new OfertaCartaoCredito());
-            }
+            verificaEnvioOFertaCredito();
+            gerenciador.notificar(this);
 
             return valor;
         }
@@ -34,9 +38,8 @@ public class Conta {
     public void deposita(double valor) {
         saldo += valor;
 
-        if (saldo >= 5000) {
-            gerenciador.adicionar(new OfertaCartaoCredito());
-        }
+        verificaEnvioOFertaCredito();
+        gerenciador.notificar(this);
     }
 
     public String getNome() {

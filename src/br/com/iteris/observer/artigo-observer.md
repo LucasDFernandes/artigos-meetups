@@ -39,7 +39,7 @@ Regra:
 
 Após alteração no saldo da conta, sistema do banco deve fazer:
 
-- Oferta de cartão de crédito: Quando o saldo da conta for alterado e tiver o valor igual ou acima de R$ 5.000,00, verificar:
+- Verificação: Quando o saldo da conta for alterado e tiver o valor igual ou acima de R$ 5.000,00, verificar:
     - Enviar a notificação de oferta de cartão de crédito.
     - Se o o saldo ficar abaixo de R$ 5.000,00, envio de notificação é suspensa.
 - Emitir Extrato de Alteração:
