@@ -42,15 +42,11 @@ Após alteração no saldo da conta, sistema do banco deve fazer:
 - Emitir Extrato de Alteração:
     - Toda alteração no saldo da conta deve emitir um extrato de alteração informando o saldo após a alteração.
 - Verificação de análise de perfil para oferta de empréstimo
-    - Após alteração do saldo da conta, realizar a verificação:
-        - saldo resultante após a alteração >= R$ 10.000, enviar notificação para oferta de empréstimo.
-        - saldo resultante após a alteração < R$ 10.000, não enviar notificação
+    - Após alteração do saldo da conta, realizar a análise de perfil para envio de oferta de empréstimo.
     
 Segue o modelo de exemplo do nosso sistema sem utilizar o Design Pattern Observer:
 ```java
 public class Conta {
-
-    private static final double VALOR_APTO_OFERTA_EMPRESTIMO = 10000;
 
     private String nome;
     private double saldo;
@@ -58,10 +54,6 @@ public class Conta {
     public Conta(String nome, double saldo) {
         this.nome = nome;
         this.saldo = saldo;
-    }
-
-    private boolean verificaOfertaEmprestimoHabilitada() {
-        return this.saldo >= VALOR_APTO_OFERTA_EMPRESTIMO;
     }
 
     public double saca(double valor) {
@@ -72,9 +64,7 @@ public class Conta {
             OfertaEmprestimo ofertaEmprestimo = new OfertaEmprestimo();
 
             extratoConta.emitirExtratoConta(this);
-            if (verificaOfertaEmprestimoHabilitada()) {
-                ofertaEmprestimo.notificarOfertaEmprestimo(this);
-            }
+            ofertaEmprestimo.notificarOfertaEmprestimo(this);
 
             return valor;
         }
@@ -88,9 +78,7 @@ public class Conta {
         OfertaEmprestimo ofertaEmprestimo = new OfertaEmprestimo();
 
         extratoConta.emitirExtratoConta(this);
-        if (verificaOfertaEmprestimoHabilitada()) {
-            ofertaEmprestimo.notificarOfertaEmprestimo(this);
-        }
+        ofertaEmprestimo.notificarOfertaEmprestimo(this);
     }
 
     public String getNome() {
@@ -136,14 +124,6 @@ public class Main {
         System.out.println("Conta de " + tywinLannister.getNome());
         tywinLannister.deposita(3000);
         System.out.println("");
-
-        System.out.println("Conta de " + aegonTargeryan.getNome());
-        aegonTargeryan.saca(3000);
-        System.out.println("");
-
-        System.out.println("Conta de " + tywinLannister.getNome());
-        tywinLannister.deposita(4000);
-        System.out.println("");
     }
 }
 ```
@@ -154,12 +134,6 @@ Enviar notificação de oferta de empréstimo
 
 Conta de Tywin Lannister
 Saldo da conta = 8000.0
-
-Conta de Aegon Targeryan
-Saldo da conta = 8000.0
-
-Conta de Tywin Lannister
-Saldo da conta = 12000.0
 Enviar notificação de oferta de empréstimo
 
 

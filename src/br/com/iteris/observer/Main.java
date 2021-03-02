@@ -13,13 +13,5 @@ public class Main {
         System.out.println("Conta de " + tywinLannister.getNome());
         tywinLannister.deposita(3000);
         System.out.println("");
-
-        System.out.println("Conta de " + aegonTargeryan.getNome());
-        aegonTargeryan.saca(3000);
-        System.out.println("");
-
-        System.out.println("Conta de " + tywinLannister.getNome());
-        tywinLannister.deposita(4000);
-        System.out.println("");
     }
 }
