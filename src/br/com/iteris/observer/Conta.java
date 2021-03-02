@@ -1,33 +1,32 @@
 package br.com.iteris.observer;
 
-import java.util.Collections;
-
 public class Conta {
+
+    private static final double VALOR_APTO_OFERTA_EMPRESTIMO = 10000;
 
     private String nome;
     private double saldo;
-    private AcaoAposAlteracaoSaldoGerenciador gerenciador;
 
     public Conta(String nome, double saldo) {
         this.nome = nome;
         this.saldo = saldo;
-        this.gerenciador = new AcaoAposAlteracaoSaldoGerenciador(Collections.singleton(new ExtratoConta()));
     }
 
-    private void verificaEnvioOFertaCredito() {
-        if (saldo >= 5000) {
-            gerenciador.adicionar(new OfertaCartaoCredito());
-        } else {
-            gerenciador.remover(new OfertaCartaoCredito());
-        }
+    private boolean verificaOfertaEmprestimoHabilitada() {
+        return this.saldo >= VALOR_APTO_OFERTA_EMPRESTIMO;
     }
 
     public double saca(double valor) {
         if (saldo >= valor) {
             saldo -= valor;
 
-            verificaEnvioOFertaCredito();
-            gerenciador.notificar(this);
+            ExtratoConta extratoConta = new ExtratoConta();
+            OfertaEmprestimo ofertaEmprestimo = new OfertaEmprestimo();
+
+            extratoConta.emitirExtratoConta(this);
+            if (verificaOfertaEmprestimoHabilitada()) {
+                ofertaEmprestimo.notificarOfertaEmprestimo(this);
+            }
 
             return valor;
         }
@@ -37,9 +36,13 @@ public class Conta {
 
     public void deposita(double valor) {
         saldo += valor;
+        ExtratoConta extratoConta = new ExtratoConta();
+        OfertaEmprestimo ofertaEmprestimo = new OfertaEmprestimo();
 
-        verificaEnvioOFertaCredito();
-        gerenciador.notificar(this);
+        extratoConta.emitirExtratoConta(this);
+        if (verificaOfertaEmprestimoHabilitada()) {
+            ofertaEmprestimo.notificarOfertaEmprestimo(this);
+        }
     }
 
     public String getNome() {

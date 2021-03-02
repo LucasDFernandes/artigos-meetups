@@ -1,19 +1,17 @@
 package br.com.iteris.observer;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AcaoAposAlteracaoSaldoGerenciador {
 
-    private Set<AcaoAposAlteracaoSaldo> listaAcaoAposAlteracaoSaldos;
+    private List<AcaoAposAlteracaoSaldo> listaAcaoAposAlteracaoSaldos;
 
     public AcaoAposAlteracaoSaldoGerenciador() {
-        listaAcaoAposAlteracaoSaldos = new HashSet<>();
+        listaAcaoAposAlteracaoSaldos = new ArrayList<>();
     }
 
-    public AcaoAposAlteracaoSaldoGerenciador(Set<AcaoAposAlteracaoSaldo> listaAcaoAposAlteracaoSaldos) {
+    public AcaoAposAlteracaoSaldoGerenciador(List<AcaoAposAlteracaoSaldo> listaAcaoAposAlteracaoSaldos) {
         this.listaAcaoAposAlteracaoSaldos = listaAcaoAposAlteracaoSaldos;
     }
 

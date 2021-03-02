@@ -1,10 +1,10 @@
 package br.com.iteris.observer;
 
-public class ExtratoConta implements AcaoAposAlteracaoSaldo {
+public class ExtratoConta {
 
-    @Override
-    public void executaAcao(Conta conta) {
+    public void emitirExtratoConta(Conta conta) {
         // simulação de emissão de extrato
         System.out.println("Saldo da conta = " + conta.getSaldo());
     }
+
 }

@@ -18,13 +18,13 @@ O Observer, também conhecido como _Listener_ e _Event-Subscriber_, permite que v
 sobre quaisquer eventos que aconteçam com o objeto que eles estão observando. Dessa forma, quando o objeto que está sendo observado muda seu estado, todos os assinantes
 que estão observando executam sua lógica utilizando o objeto observado.
 
-Vale lembrar que nesse padrão de projeto, a ordem em que os assinantes executam suas operações é um fator arbitrário, ou seja, 
-podem ser executados em qualquer ordem. 
-
-O objeto que tem o estado que deseja ser observado é normalmente chamado de sujeito (_subject_), mas já que ele também vai notificar outros objetos sobre as mudanças em seu estado, podemos cham-alo de Publicador (_Publisher_).
-Todos os outros objetos que querem saber das mudanças do estado do publicador são chamados de assinantes (_Subscriber_).
+O objeto que tem o estado que deseja ser observado é normalmente chamado de sujeito (_subject_), mas já que ele também vai notificar outros objetos sobre as mudanças em seu estado, 
+podemos chama-lo de Publicador (_Publisher_). Todos os outros objetos que querem saber das mudanças do estado do publicador são chamados de assinantes (_Subscriber_).
 
 Como todos os assinantes tem possuir a mesma a assinatura de método para usar o polimorfismo, usamos uma interface para realizar a execução dos assinantes.    
+
+Vale lembrar que nesse padrão de projeto, a ordem em que os assinantes executam suas operações é um fator arbitrário, ou seja, 
+podem ser executados em qualquer ordem. 
 
 A estrutura deste padrão pode ser visualizada pelo seguinte diagrama de classes:
 <br>
@@ -39,15 +39,18 @@ Regra:
 
 Após alteração no saldo da conta, sistema do banco deve fazer:
 
-- Verificação: Quando o saldo da conta for alterado e tiver o valor igual ou acima de R$ 5.000,00, verificar:
-    - Enviar a notificação de oferta de cartão de crédito.
-    - Se o o saldo ficar abaixo de R$ 5.000,00, envio de notificação é suspensa.
 - Emitir Extrato de Alteração:
-    - Toda alteração de conta deve emitir um extrato de alteração informando o saldo após a alteração.
+    - Toda alteração no saldo da conta deve emitir um extrato de alteração informando o saldo após a alteração.
+- Verificação de análise de perfil para oferta de empréstimo
+    - Após alteração do saldo da conta, realizar a verificação:
+        - saldo resultante após a alteração >= R$ 10.000, enviar notificação para oferta de empréstimo.
+        - saldo resultante após a alteração < R$ 10.000, não enviar notificação
     
 Segue o modelo de exemplo do nosso sistema sem utilizar o Design Pattern Observer:
 ```java
 public class Conta {
+
+    private static final double VALOR_APTO_OFERTA_EMPRESTIMO = 10000;
 
     private String nome;
     private double saldo;
@@ -57,15 +60,21 @@ public class Conta {
         this.saldo = saldo;
     }
 
+    private boolean verificaOfertaEmprestimoHabilitada() {
+        return this.saldo >= VALOR_APTO_OFERTA_EMPRESTIMO;
+    }
+
     public double saca(double valor) {
         if (saldo >= valor) {
             saldo -= valor;
 
-            OfertaCartaoCredito ofertaCartaoCredito = new OfertaCartaoCredito();
             ExtratoConta extratoConta = new ExtratoConta();
+            OfertaEmprestimo ofertaEmprestimo = new OfertaEmprestimo();
 
-            ofertaCartaoCredito.ofertarCartaoCredito(this);
             extratoConta.emitirExtratoConta(this);
+            if (verificaOfertaEmprestimoHabilitada()) {
+                ofertaEmprestimo.notificarOfertaEmprestimo(this);
+            }
 
             return valor;
         }
@@ -75,12 +84,13 @@ public class Conta {
 
     public void deposita(double valor) {
         saldo += valor;
-
-        OfertaCartaoCredito ofertaCartaoCredito = new OfertaCartaoCredito();
         ExtratoConta extratoConta = new ExtratoConta();
+        OfertaEmprestimo ofertaEmprestimo = new OfertaEmprestimo();
 
-        ofertaCartaoCredito.ofertarCartaoCredito(this);
         extratoConta.emitirExtratoConta(this);
+        if (verificaOfertaEmprestimoHabilitada()) {
+            ofertaEmprestimo.notificarOfertaEmprestimo(this);
+        }
     }
 
     public String getNome() {
@@ -93,49 +103,65 @@ public class Conta {
 }
 ```
 ```java
-public class OfertaCartaoCredito {
-
-    public void ofertarCartaoCredito(Conta conta) {
-        if (conta.getSaldo() >= 5000) {
-            // simulação de envio de notificação de oferta de cartão de crédito
-            System.out.println("Enviar notificação de oferta de cartão de crédito");
-        }
-    }
-}
-```
-```java
 public class ExtratoConta {
 
     public void emitirExtratoConta(Conta conta) {
         // simulação de emissão de extrato
         System.out.println("Saldo da conta = " + conta.getSaldo());
     }
+
+}
+```
+```java
+public class OfertaEmprestimo {
+
+    public void notificarOfertaEmprestimo(Conta conta) {
+        // simulação de envio de notificação de oferta de empréstimo
+        System.out.println("Enviar notificação de oferta de empréstimo");
+    }
+
 }
 ```
 ```java
 public class Main {
 
     public static void main(String[] args) {
-        Conta aegonTargeryan = new Conta("Aegon Targeryan", 1000);
-        Conta tywinLannister = new Conta("Tywin Lannister", 1000);
+        Conta aegonTargeryan = new Conta("Aegon Targeryan", 5000);
+        Conta tywinLannister = new Conta("Tywin Lannister", 5000);
 
         System.out.println("Conta de " + aegonTargeryan.getNome());
         aegonTargeryan.deposita(6000);
-
         System.out.println("");
 
         System.out.println("Conta de " + tywinLannister.getNome());
         tywinLannister.deposita(3000);
+        System.out.println("");
+
+        System.out.println("Conta de " + aegonTargeryan.getNome());
+        aegonTargeryan.saca(3000);
+        System.out.println("");
+
+        System.out.println("Conta de " + tywinLannister.getNome());
+        tywinLannister.deposita(4000);
+        System.out.println("");
     }
 }
 ```
 ```shell script
 Conta de Aegon Targeryan
-Enviar notificação de oferta de cartão de crédito
-Saldo da conta = 7000.0
+Saldo da conta = 11000.0
+Enviar notificação de oferta de empréstimo
 
 Conta de Tywin Lannister
-Saldo da conta = 4000.0
+Saldo da conta = 8000.0
+
+Conta de Aegon Targeryan
+Saldo da conta = 8000.0
+
+Conta de Tywin Lannister
+Saldo da conta = 12000.0
+Enviar notificação de oferta de empréstimo
+
 
 Process finished with exit code 0
 ```
@@ -150,6 +176,7 @@ Obviamente, parece não ser a melhor forma de resolver nosso problema.
 **Solução Utilizando Observer**
 
 Seguindo o conceito do Observer, vamos criar um gerenciador de eventos e ele será responsável por adicionar, remover e notificar os assinantes
-do objeto Conta. Vamos isolar a lógica da ação após alteração do saldo para uma interface e assim fazer uso do polimorfismo. 
+do objeto Conta. Vamos isolar a lógica da ação após alteração do saldo para uma interface e assim fazer uso do polimorfismo. E o objeto observado, Conta, 
+é que possui a lógica para dizer ao gerenciador quando adicionar ou remover os assinantes.
 
 *_show me the code_*
