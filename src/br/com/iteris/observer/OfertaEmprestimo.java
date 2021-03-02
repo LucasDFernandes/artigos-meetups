@@ -1,10 +1,10 @@
 package br.com.iteris.observer;
 
-public class OfertaEmprestimo {
+public class OfertaEmprestimo implements AcaoAposAlteracaoSaldo {
 
-    public void notificarOfertaEmprestimo(Conta conta) {
-        // simulação de envio de notificação de oferta de empréstimo
-        System.out.println("Enviar notificação de oferta de empréstimo");
+    @Override
+    public void executaAcao(Conta conta) {
+        // simulação de envio de análise de perfil para oferta de empréstimo
+        System.out.println("Enviar notificação de análise de perfil para oferta de empréstimo");
     }
-
 }

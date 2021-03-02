@@ -104,8 +104,8 @@ public class ExtratoConta {
 public class OfertaEmprestimo {
 
     public void notificarOfertaEmprestimo(Conta conta) {
-        // simulação de envio de notificação de oferta de empréstimo
-        System.out.println("Enviar notificação de oferta de empréstimo");
+        // simulação de envio de análise de perfil para oferta de empréstimo
+        System.out.println("Enviar notificação de análise de perfil para oferta de empréstimo");
     }
 
 }
@@ -130,11 +130,11 @@ public class Main {
 ```shell script
 Conta de Aegon Targeryan
 Saldo da conta = 11000.0
-Enviar notificação de oferta de empréstimo
+Enviar notificação de análise de perfil para oferta de empréstimo
 
 Conta de Tywin Lannister
 Saldo da conta = 8000.0
-Enviar notificação de oferta de empréstimo
+Enviar notificação de análise de perfil para oferta de empréstimo
 
 
 Process finished with exit code 0
@@ -149,8 +149,84 @@ Obviamente, parece não ser a melhor forma de resolver nosso problema.
 
 **Solução Utilizando Observer**
 
-Seguindo o conceito do Observer, vamos criar um gerenciador de eventos e ele será responsável por adicionar, remover e notificar os assinantes
-do objeto Conta. Vamos isolar a lógica da ação após alteração do saldo para uma interface e assim fazer uso do polimorfismo. E o objeto observado, Conta, 
-é que possui a lógica para dizer ao gerenciador quando adicionar ou remover os assinantes.
+Seguindo o conceito do Observer, nessa implementação o próprio objeto Conta terá a lista de ações após alteração de saldo e ele será responsável por registrar os assinantes 
+que ficarão observando a alteração do saldo. O objeto Conta não se preocupa mais em instanciar e chamar a execução de cada assinante, por meio do uso do polimorfismo cada um
+dentro do loop da lista executará sua própria ação. 
 
 *_show me the code_*
+```java
+public class Conta {
+
+    private String nome;
+    private double saldo;
+    private List<AcaoAposAlteracaoSaldo> listaAcoes;
+
+    public Conta(String nome, double saldo) {
+        this.nome = nome;
+        this.saldo = saldo;
+        this.listaAcoes = Arrays.asList(new ExtratoConta(), new OfertaEmprestimo());
+    }
+
+    public double saca(double valor) {
+        if (saldo >= valor) {
+            saldo -= valor;
+            listaAcoes.forEach(acaoAposAlteracaoSaldo -> acaoAposAlteracaoSaldo.executaAcao(this));
+            return valor;
+        }
+
+        return 0;
+    }
+
+    public void deposita(double valor) {
+        saldo += valor;
+        listaAcoes.forEach(acaoAposAlteracaoSaldo -> acaoAposAlteracaoSaldo.executaAcao(this));
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+}
+```
+```java
+public interface AcaoAposAlteracaoSaldo {
+
+    void executaAcao(Conta conta);
+}
+```
+```java
+public class OfertaEmprestimo implements AcaoAposAlteracaoSaldo {
+
+    @Override
+    public void executaAcao(Conta conta) {
+        // simulação de envio de análise de perfil para oferta de empréstimo
+        System.out.println("Enviar notificação de análise de perfil para oferta de empréstimo");
+    }
+}
+```
+```java
+public class ExtratoConta implements AcaoAposAlteracaoSaldo {
+
+    @Override
+    public void executaAcao(Conta conta) {
+        // simulação de emissão de extrato
+        System.out.println("Saldo da conta = " + conta.getSaldo());
+    }
+}
+```
+Como teste podemos rodar em um _Main_ de exemplo:
+```shell script
+Conta de Aegon Targeryan
+Saldo da conta = 11000.0
+Enviar notificação de análise de perfil para oferta de empréstimo
+
+Conta de Tywin Lannister
+Saldo da conta = 8000.0
+Enviar notificação de análise de perfil para oferta de empréstimo
+
+
+Process finished with exit code 0
+```

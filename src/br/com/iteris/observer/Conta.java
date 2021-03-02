@@ -1,25 +1,24 @@
 package br.com.iteris.observer;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Conta {
 
     private String nome;
     private double saldo;
+    private List<AcaoAposAlteracaoSaldo> listaAcoes;
 
     public Conta(String nome, double saldo) {
         this.nome = nome;
         this.saldo = saldo;
+        this.listaAcoes = Arrays.asList(new ExtratoConta(), new OfertaEmprestimo());
     }
 
     public double saca(double valor) {
         if (saldo >= valor) {
             saldo -= valor;
-
-            ExtratoConta extratoConta = new ExtratoConta();
-            OfertaEmprestimo ofertaEmprestimo = new OfertaEmprestimo();
-
-            extratoConta.emitirExtratoConta(this);
-            ofertaEmprestimo.notificarOfertaEmprestimo(this);
-
+            listaAcoes.forEach(acaoAposAlteracaoSaldo -> acaoAposAlteracaoSaldo.executaAcao(this));
             return valor;
         }
 
@@ -28,11 +27,7 @@ public class Conta {
 
     public void deposita(double valor) {
         saldo += valor;
-        ExtratoConta extratoConta = new ExtratoConta();
-        OfertaEmprestimo ofertaEmprestimo = new OfertaEmprestimo();
-
-        extratoConta.emitirExtratoConta(this);
-        ofertaEmprestimo.notificarOfertaEmprestimo(this);
+        listaAcoes.forEach(acaoAposAlteracaoSaldo -> acaoAposAlteracaoSaldo.executaAcao(this));
     }
 
     public String getNome() {
