@@ -149,8 +149,8 @@ Obviamente, parece não ser a melhor forma de resolver nosso problema.
 
 **Solução Utilizando Observer**
 
-Seguindo o conceito do Observer, nessa implementação o próprio objeto Conta terá a lista de ações após alteração de saldo e ele será responsável por registrar os assinantes 
-que ficarão observando a alteração do saldo. O objeto Conta não se preocupa mais em instanciar e chamar a execução de cada assinante, por meio do uso do polimorfismo cada um
+Seguindo o conceito do Observer, como na nossa regra toda alteração de saldo sempre vai executar as ações dos assinantes o próprio objeto Conta terá a lista de ações após alteração de saldo
+e ele será responsável por registrar os assinantes que ficarão observando a alteração do saldo. O objeto Conta não se preocupa mais em instanciar e chamar a execução de cada assinante, por meio do uso do polimorfismo cada um
 dentro do loop da lista executará sua própria ação. 
 
 *_show me the code_*
@@ -230,3 +230,16 @@ Enviar notificação de análise de perfil para oferta de empréstimo
 
 Process finished with exit code 0
 ```
+
+***Ganhos com Observer***
+
+Com o uso do Observer, caso uma nova regra que tenha que ser executada após a alteração de saldo for criada, não precisamos mais
+procurar no nosso código os pontos aonde essa lógica tem que ser adicionada. Caso outro serviço ou outro classe realize
+alguma alteração no saldo e precise executar as regras, não precisamos realizar um _copy and paste_ do bloco de cpodigo da classe Conta, 
+basta adicionarmos a lista de assinantes e o polimorfismo se encarregará do resto. Respeitnado assim o princípio _Open Closed_. 
+
+Dessa forma, diminuimos o acoplamento das nossas classes e tornamos o nosso código. 
+Outro ganho importante nessa abordagem é que agora não dependemos mais de classes concretas e sim de uma coleção do tipo interface que é uma estrutura mais estável,
+garantido assim o princípio da inversão de dependência.
+
+
