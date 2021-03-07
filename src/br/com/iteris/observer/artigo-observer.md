@@ -231,7 +231,7 @@ Enviar notificação de análise de perfil para oferta de empréstimo
 Process finished with exit code 0
 ```
 
-***Ganhos com Observer***
+**Ganhos com Observer**
 
 Com o uso do Observer, caso uma nova regra que tenha que ser executada após a alteração de saldo for criada, não precisamos mais
 procurar no nosso código os pontos aonde essa lógica tem que ser adicionada. Caso outro serviço ou outro classe realize
@@ -242,7 +242,7 @@ Dessa forma, diminuimos o acoplamento das nossas classes e tornamos o nosso códi
 Outro ganho importante nessa abordagem é que agora não dependemos mais de classes concretas e sim de uma coleção do tipo interface que é uma estrutura mais estável,
 garantido assim o princípio da inversão de dependência.
 
-***Para Saber Mais***
+**Para Saber Mais**
 
 Seguindo o mesmo modelo e regras do problema apresentado anteriormente, segue uma solução mais próxima da realidade de desenvolvimento do mundo real. 
 Apresentaremos uma solução rodando uma aplicação utilizando Spring Boot e algumas boas práticas e outras bibliotecas maduras e bastante utilizadas.
