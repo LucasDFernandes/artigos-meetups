@@ -281,8 +281,8 @@ public interface AcaoAposAlteracaoSaldo {
 }
 ```
 ```java
-@Slf4j
-@Service
+@Slf4j /* anotação que permite utilizar variavel "log" */
+@Service /* anotação indicando que essa classe é um Bean do tipo Service gerenciada pelo container Spring */
 public class AnaliseOfertaEmprestimoService implements AcaoAposAlteracaoSaldo {
 
     @Override
@@ -292,8 +292,8 @@ public class AnaliseOfertaEmprestimoService implements AcaoAposAlteracaoSaldo {
 }
 ```
 ```java
-@Slf4j
-@Service
+@Slf4j /* anotação que permite utilizar variavel "log" */
+@Service /* anotação indicando que essa classe é um Bean do tipo Service gerenciada pelo container Spring */
 public class ExtratoFinanceiroService implements AcaoAposAlteracaoSaldo {
 
     @Override
