@@ -21,7 +21,7 @@ que estão observando executam sua lógica utilizando o objeto observado.
 O objeto que tem o estado que deseja ser observado é normalmente chamado de sujeito (_subject_), mas já que ele também vai notificar outros objetos sobre as mudanças em seu estado, 
 podemos chama-lo de Publicador (_Publisher_). Todos os outros objetos que querem saber das mudanças do estado do publicador são chamados de assinantes (_Subscriber_).
 
-Como todos os assinantes tem possuir a mesma a assinatura de método para usar o polimorfismo, usamos uma interface para realizar a execução dos assinantes.    
+Como todos os assinantes precisa possuir a mesma a assinatura de método para usar o polimorfismo, usamos uma interface para realizar a execução dos assinantes.    
 
 Vale lembrar que nesse padrão de projeto, a ordem em que os assinantes executam suas operações é um fator arbitrário, ou seja, 
 podem ser executados em qualquer ordem. 
